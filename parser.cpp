@@ -7,13 +7,13 @@
 #include <numeric>
 #include "token.h"
 #include <array>
+#include <fstream>
+#include "token_pattern.h"
 
 using namespace boost::xpressive;
 
 namespace lexer {
 
-    
-    
     void generate_token(std::string& value) {
 	//regex matcha mot token rules
 	 sregex rex = sregex::compile( "(\\w+)\\+(\\w+)!" );
@@ -97,19 +97,46 @@ void parse(std::string&& a) {
 namespace user {
    
     void token_patterns() {
+	std::ifstream fs("./tokens.txt");
+	std::string regex_str{};
+	while(fs >> regex_str) {
+	    std::cout << regex_str << std::endl;
+	    auto pattern = lexer::TokenPattern(regex_str);
+	}
 	
     }
 }
 
+
 int main() {
     user::token_patterns();
     parse("abc+aaa! ");
+    // P a = std::move(hej());
+    //std::cout << hej().k << "\n";
+    
 }
 
 
 
 // META LANG
+/***
 
+
+struct P {
+    P(char const* a) {
+	std::cout << "constructed" << std::endl;
+	k = 10;
+    }
+    int k;
+};
+
+P hej() {
+    return "sad";
+}
+
+
+
+*/
 
 
 
