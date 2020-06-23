@@ -16,8 +16,10 @@ struct Token {
     std::string value;
     int const column;
     int const row;
+    
 private:
     TokenType const tt;
+
 public:
     TokenType tokenType();
 

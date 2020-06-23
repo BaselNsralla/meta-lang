@@ -9,6 +9,8 @@
 #include <array>
 #include <fstream>
 #include "token_pattern.h"
+#include <iterator>
+#include <sstream>
 
 using namespace boost::xpressive;
 
@@ -53,7 +55,8 @@ namespace lexer {
 		return acc;
 	    };
 	
-	std::string s = std::accumulate(input_str.begin(), input_str.end(), std::string{}, functor);
+	std::string s = std::accumulate(input_str.begin(),
+					input_str.end(), std::string{}, functor);
 	std:: cout << s << "S should be consumed thus  empty " << s.size() << std::endl;
     }
 }
@@ -95,22 +98,57 @@ void parse(std::string&& a) {
 
 
 namespace user {
-   
-    void token_patterns() {
-	std::ifstream fs("./tokens.txt");
-	std::string regex_str{};
-	while(fs >> regex_str) {
-	    std::cout << regex_str << std::endl;
-	    auto pattern = lexer::TokenPattern(regex_str);
+    inline bool skip(std::string& line) {
+	return line[0] == '#';
+    }
+    
+    void read_patterns(char* path) {
+	std::cout << "Hallå?" << path << std::endl;
+	std::ifstream fs(path);
+	std::string line{};
+
+	std::vector<lexer::TokenPattern> token_patterns{};
+	
+	for(;std::getline(fs, line);)//while(fs >> line)
+	{
+	    //std::cout << line << std::endl;
+	    if(skip(line)) continue;
+
+	    std::istringstream iss(line); // vi konstruerar en ny hela tiden wtf
+
+	    std::string name;
+	    std::string arrow;
+	    std::string regex;
+	    int group{};
+	    
+	    iss >> name;
+	    if(iss.fail()) continue;
+	    
+	    iss >> arrow;
+	    iss >> regex;
+    
+	    if (iss.fail())
+	    {
+		std::cout << "\033[1;31mBad format at -> \033[0m" << line << std::endl;
+		continue;
+	    }
+	    
+	    iss >> group;
+	    std::cout << "-> " << name << ' ' << regex << ' ' << group << '\n';
+	  
+	    auto pattern = lexer::TokenPattern(regex, group);
+	    token_patterns.push_back(pattern);
 	}
 	
     }
 }
 
 
-int main() {
-    user::token_patterns();
-    parse("abc+aaa! ");
+int main(int argc, char** argv ) {
+    if(argc < 2)
+	return 1;
+    user::read_patterns(argv[1]);
+    //parse("abc+aaa! ");
     // P a = std::move(hej());
     //std::cout << hej().k << "\n";
     

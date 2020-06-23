@@ -5,8 +5,7 @@
 using namespace boost::xpressive;
 using namespace lexer;
 
-std::optional<std::string> TokenPattern::match(std::string& value,
-					       int group)
+std::optional<std::string> TokenPattern::match(std::string& value)
 {
     smatch what;
     if(regex_match(value, what, rex))
