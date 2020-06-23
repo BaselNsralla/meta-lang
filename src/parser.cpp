@@ -134,7 +134,11 @@ P hej() {
     return "sad";
 }
 
-
+std::string s = "split on    whitespace   ";
+std::istringstream iss(s);
+std::vector<std::string> result{
+    std::istream_iterator<std::string>(iss), {}
+};
 
 */
 
