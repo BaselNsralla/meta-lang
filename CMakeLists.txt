@@ -5,5 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS "-fconcepts")
 project(meta-lang)
 
-add_executable(meta src/parser.cpp)
+file(GLOB SOURCES
+    src/*.cpp
+)
+
+add_executable(meta ${SOURCES})
 

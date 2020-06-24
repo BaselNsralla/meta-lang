@@ -1,18 +1,30 @@
 #include <boost/xpressive/xpressive.hpp>
 #include <optional>
+#include <string>
 
 using namespace boost::xpressive;
 
 
 template <class T>
-concept stringType = std::is_same<typename std::decay<T>::type,
+concept Sype = std::is_same<typename std::decay<T>::type,
                                   std::string>::value;
 // default parametrar gör man .h filen
-namespace lexer {
+namespace lex {
+    /*
+    finns en note om hur detta
+    skulle kunna fixas med istringstream
+    enum TokenLogicalType {
+        // commands	
+	keyword,
+	// primary
+	identifier,
+	literal
+    };
+    */
     class TokenPattern {
     public:
-	template<stringType T> 
-	TokenPattern(T&&, int);
+	template<Sype T> 
+        TokenPattern(T&&, int);
 	
 	std::optional<std::string> match(std::string& value);
     
@@ -22,8 +34,8 @@ namespace lexer {
     };
 }
 
-template<stringType T> 
-lexer::TokenPattern::TokenPattern(T&& str, int grp) {
-    rex   = sregex::compile(std::forward<T>(str));
+template<Sype T> 
+lex::TokenPattern::TokenPattern(T&& str, int grp) {
+    rex   = sregex::compile(std::forward<T>(str));// moves if the generated function is of r-val
     group = grp;
 }

@@ -1,16 +1,16 @@
-#KEYWORDS
+#KEYWORD
 while       -> while 
 if          -> if
 let         -> let
 declaration -> decl
 define      -> def
 
-#NAMES/IDENTIFIERS
+#IDENTIFIER
 name -> [a-zA-Z][\w\d]*
 
-#LITERALS
+#LITERAL
 string_literal -> "([\w\d]*)" 1
 number_literal -> \d+
 
-#OPERANDS
+#OPERAND
 ops -> ([\*\+\-\.\&\|])((?<=&)&|(?<=\|)\|)? 0

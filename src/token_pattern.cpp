@@ -3,13 +3,13 @@
 #include <string>
 
 using namespace boost::xpressive;
-using namespace lexer;
+using namespace lex;
 
 std::optional<std::string> TokenPattern::match(std::string& value)
 {
     smatch what;
-    if(regex_match(value, what, rex))
-	return what[group];
+    if(regex_match(value, what, this->rex))
+	return what[this->group];
     
     return {};
 }
