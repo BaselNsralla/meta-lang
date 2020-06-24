@@ -102,12 +102,11 @@ namespace user {
 	return line[0] == '#';
     }
     
-    void read_patterns(char* path) {
-	std::cout << "Hallå?" << path << std::endl;
+    void read_patterns(char* path, std::vector<lexer::TokenPattern>& token_patterns) {
+
 	std::ifstream fs(path);
 	std::string line{};
 
-	std::vector<lexer::TokenPattern> token_patterns{};
 	
 	for(;std::getline(fs, line);)//while(fs >> line)
 	{
@@ -115,7 +114,7 @@ namespace user {
 	    if(skip(line)) continue;
 
 	    std::istringstream iss(line); // vi konstruerar en ny hela tiden wtf
-
+	                                  // då måste den clear:as i slutet också
 	    std::string name;
 	    std::string arrow;
 	    std::string regex;
@@ -139,7 +138,7 @@ namespace user {
 	    auto pattern = lexer::TokenPattern(regex, group);
 	    token_patterns.push_back(pattern);
 	}
-	
+
     }
 }
 
@@ -147,11 +146,23 @@ namespace user {
 int main(int argc, char** argv ) {
     if(argc < 2)
 	return 1;
-    user::read_patterns(argv[1]);
+    /*
+      std::vector<lexer::TokenPattern>&& vec = std::move(user::read_patterns(argv[1]));
+      read_patterns retunerade by value
+    */
+    std::vector<lexer::TokenPattern> token_patterns{};
+    user::read_patterns(argv[1], token_patterns);
+   
+
+    for(auto t: token_patterns)
+    {
+	std::cout << t.group << std::endl;
+    }
+
+
     //parse("abc+aaa! ");
     // P a = std::move(hej());
-    //std::cout << hej().k << "\n";
-    
+    //std::cout << hej().k << "\n";    
 }
 
 

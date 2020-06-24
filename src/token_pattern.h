@@ -16,7 +16,7 @@ namespace lexer {
 	
 	std::optional<std::string> match(std::string& value);
     
-    private:
+	//private:
         sregex rex;
 	int group;
     };
