@@ -1,13 +1,11 @@
+#pragma once
 #include <boost/xpressive/xpressive.hpp>
 #include <optional>
 #include <string>
+#include "m_types.h"
 
 using namespace boost::xpressive;
 
-
-template <class T>
-concept Sype = std::is_same<typename std::decay<T>::type,
-                                  std::string>::value;
 // default parametrar gör man .h filen
 namespace lex {
     /*
@@ -23,7 +21,7 @@ namespace lex {
     */
     class TokenPattern {
     public:
-	template<Sype T> 
+	template<StringType T> 
         TokenPattern(T&&, int);
 	
 	std::optional<std::string> match(std::string& value);
@@ -34,7 +32,7 @@ namespace lex {
     };
 }
 
-template<Sype T> 
+template<StringType T> 
 lex::TokenPattern::TokenPattern(T&& str, int grp) {
     rex   = sregex::compile(std::forward<T>(str));// moves if the generated function is of r-val
     group = grp;

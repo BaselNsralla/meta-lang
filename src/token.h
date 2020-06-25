@@ -1,14 +1,13 @@
+#pragma once
 #include <string>
 #include "coordinate.h"
 
+#include "m_types.h"
 
 // du kan göra en template class med std::forward till string så får du gratis
 // constructorer för att du får en klass för varje typ
 
 
-template <class T>
-concept StringType = std::is_same<typename std::decay<T>::type,
-                                  std::string>::value;
 
 namespace lex {
     /*
