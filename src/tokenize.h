@@ -9,6 +9,6 @@
 
 namespace lex {
     void tokenize(std::string const& input_str,
-		  std::map<std::string, std::vector<lex::TokenPattern>>& tps,
+		  std::vector<lex::TokenPattern>& tps,
 		  std::vector<Token>& tokens);
 }

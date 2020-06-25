@@ -32,7 +32,7 @@ static inline void insert_or_create(auto& token_map, std::string& key, lex::Toke
 }
 
 void lex::user::tokenize_code(char const* file_name,
-		   std::map<std::string, std::vector<lex::TokenPattern>>& token_patterns)
+		              std::vector<lex::TokenPattern>& token_patterns)
 { // det bästa är att göra det multitrådat här
     std::ifstream fs(file_name);
     std::string line{};
@@ -46,8 +46,7 @@ void lex::user::tokenize_code(char const* file_name,
 }
 
 
-void lex::user::generate_patterns(char const* path,
-		       std::map<std::string, std::vector<lex::TokenPattern>>& token_patterns)
+void lex::user::generate_patterns(char const* path, std::vector<lex::TokenPattern>& token_patterns)
 {
     std::ifstream fs(path);
     std::string line{};
@@ -98,9 +97,9 @@ void lex::user::generate_patterns(char const* path,
 	iss >> group;
 	std::cout << "-> " << name << ' ' << regex << ' ' << group << '\n';
 	  
-	auto pattern = lex::TokenPattern(regex, group);
+	//auto pattern = lex::TokenPattern(regex, logical_type, group);
+	token_patterns.emplace_back(regex, logical_type, group);
 	
-	
-	insert_or_create(token_patterns, logical_type, pattern);
+	//insert_or_create(token_patterns, logical_type, pattern);
     }
 }

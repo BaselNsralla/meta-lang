@@ -19,21 +19,20 @@
 using namespace boost::xpressive;
 using namespace lex;
 
-static inline std::pair<std::string, std::string> find_token_str(std::string& value, auto& tps) {
-    std::cout << value << std::endl;
-    for (auto& pair: tps) {	    
-	for (auto& tp: pair.second) {
-	    auto result = tp.match(value);
-	    if(result)
-		return std::make_pair(result.value(), pair.first);
-	}
-    }
+static inline TokenPattern::MatchResult find_token_str(std::string& value, auto& tps) {
+    for(auto& tp: tps)
+    {
+        auto result = tp.match(value);
+        if(result)
+            return result.value();
+    } 
+
     throw std::exception{};
  }
 
 
 void lex::tokenize(std::string const& input_str,
-		  std::map<std::string, std::vector<lex::TokenPattern>>& tps,
+		  std::vector<lex::TokenPattern>& tps,
 		  std::vector<Token>& tokens) { // T matchable?
 	
 	// kan man estimera en size på token vector baserat på strängsize?
@@ -48,13 +47,11 @@ void lex::tokenize(std::string const& input_str,
 	    // eftersom det är en composition vilket sparar minne oftast
 	    if (regex_match(std::string()+=piece, what, not_end_of_token)) // regex bara
 		return acc += piece;
-
 	    try
 	    {
-		auto str_type = find_token_str(acc, tps);
-		Token t{str_type.first, coordinate, str_type.second};
-		std::cout << t.tokenType() << std::endl;
-		tokens.push_back(std::move(t));
+		auto match_result = find_token_str(acc, tps);
+		std::cout << match_result.logical_type << std::endl;
+		tokens.emplace_back(match_result.token_match, coordinate, match_result.logical_type);
             }
 	    catch (const std::exception& e)
             {

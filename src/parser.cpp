@@ -65,7 +65,7 @@ int main(int argc, char** argv ) {
       std::vector<lexer::TokenPattern>&& vec = std::move(user::read_patterns(argv[1]));
       read_patterns retunerade by value
     */
-    std::map<std::string, std::vector<lex::TokenPattern>> token_patterns{};
+    std::vector<lex::TokenPattern> token_patterns{};
     lex::user::generate_patterns(argv[1], token_patterns); // <-- nu här
 
     std::vector<lex::Token> tokens{};
