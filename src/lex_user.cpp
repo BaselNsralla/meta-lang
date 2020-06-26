@@ -98,6 +98,7 @@ void lex::user::generate_patterns(char const* path, std::vector<lex::TokenPatter
 	std::cout << "-> " << name << ' ' << regex << ' ' << group << '\n';
 	  
 	//auto pattern = lex::TokenPattern(regex, logical_type, group);
+       
 	token_patterns.emplace_back(regex, logical_type, group);
 	
 	//insert_or_create(token_patterns, logical_type, pattern);

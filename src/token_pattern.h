@@ -22,7 +22,7 @@ namespace lex {
     class TokenPattern;
     class TokenPattern {
     public:
-	    struct MatchResult {
+	struct MatchResult {
         MatchResult(size_t a, std::string&& b , std::string c):
 	        match_size{a}, token_match{std::move(b)}, logical_type{c} {}
 	size_t match_size;
@@ -50,7 +50,7 @@ namespace lex {
 
 template<StringType T> 
 lex::TokenPattern::TokenPattern(T&& str, T&& type, int grp) {
-    rex   = sregex::compile(std::forward<T>(str));// moves if the generated function is of r-val
-    logical_type = std::forward<T>(type);
-    group = grp;
+    std::string temp = "^(" + str + ").*";
+    rex   = sregex::compile(std::move(temp)); //std::forward moves if the generated function is of r-val
+    group = grp + 1;
 }

@@ -9,7 +9,7 @@ std::optional<typename TokenPattern::MatchResult> TokenPattern::match(std::strin
 {
     smatch what;
     if(regex_match(value, what, this->rex))
-	return MatchResult(std::string(what[0]).size(), std::move(what[this->group]), logical_type);
+	return MatchResult(std::string(what[1]).size(), std::move(what[this->group]), logical_type);
     
     return {};
 }
