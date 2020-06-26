@@ -1,3 +1,4 @@
+#include <regex>
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -72,13 +73,58 @@ int main(int argc, char** argv ) {
 
     if(argc > 2)
     {
-	lex::user::tokenize_code(argv[2], token_patterns);
+	//lex::user::tokenize_code(argv[2], token_patterns);
     }
 
     //    lex::tokenize("if a;", token_patterns, tokens);
 
+
+
     
 
+    
+    std::string s="what";
+    std::string target = "whatd";
+    auto a = lex::TokenPattern(s, s, -1);
+    auto b = a.match(target); 
+    if(b){
+	std::cout << "MATcHED " << b.value().token_match  << "SD" << std::endl;
+    } else {
+	std::cout << "No match" << std::endl;
+    }
+    
+    
+    
+    /*
+    std::string s="if";
+    std::string front = R"(^()";
+    std::string back  = R"()(?![a-zA-Z0-9]))";
+    
+    std::string regex = front + s + back;//"^(while)(?![a-zA-Z0-9])"; 
+    std::cout << regex << std::endl;
+    smatch what;
+    auto rex = sregex::compile(std::move(regex));
+    
+    if(regex_search(target, what, rex)) {
+	std::cout << what[0] << std::endl;
+    }
+    else {
+	std::cout << "#ShIET" << std::endl;
+    }
+    */
+    
+    /*
+    std::regex self_regex(R"((while)(?![a-zA-Z1-9]))",
+            std::regex_constants::ECMAScript | std::regex_constants::icase);
+    std::string target = "while*";
+     std::smatch base_match;
+     if (std::regex_search(target, base_match, self_regex)) {
+	 std::cout << base_match[1] << std::endl;
+     } else {
+	 std::cout << "SHEIT" << std::endl;
+     }
+
+*/
     //parse("abc+aaa! ");
     // P a = std::move(hej());
     //std::cout << hej().k << "\n";    
