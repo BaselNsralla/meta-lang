@@ -73,7 +73,7 @@ int main(int argc, char** argv ) {
 
     if(argc > 2)
     {
-	//lex::user::tokenize_code(argv[2], token_patterns);
+	lex::user::tokenize_code(argv[2], token_patterns);
     }
 
     //    lex::tokenize("if a;", token_patterns, tokens);
@@ -83,10 +83,10 @@ int main(int argc, char** argv ) {
     
 
     
-    std::string s="what";
-    std::string target = "whatd";
+    std::string s="^what";
+    std::string target = "what=";
     auto a = lex::TokenPattern(s, s, -1);
-    auto b = a.match(target); 
+    auto b = a.search(target); 
     if(b){
 	std::cout << "MATcHED " << b.value().token_match  << "SD" << std::endl;
     } else {

@@ -22,30 +22,43 @@ using namespace lex;
 static inline std::vector<std::pair<std::string, std::string>> find_token_str(std::string& value, auto& tps)
 {
 
-    //TokenPattern::MatchResult
     std::vector<std::pair<std::string, std::string>> match_list;
-    bool consumed = false;
-
+   
+    // full match, if not consume
+    for(auto& tp: tps) {
+	auto result = tp.match(value);
+	if(result) {
+	    auto match_result = result.value();
+	    match_list.emplace_back(match_result.token_match, match_result.logical_type);
+	    return match_list;
+	    //goto finish;
+	}
+    }
+    //{      
+    //TokenPattern::MatchResult
+    std::cout << "WILL start with consumin" << std::endl;
     auto start = value.begin();
     auto end   = value.end();
-
-    
+  
     while(start != end) {
 	std::string part{start, end};
 	for(auto& tp: tps)
         {
-	    auto result = tp.match(part);
+	    auto result = tp.search(part);
 	    if(result) {
 	       auto match_result = result.value();
 	       match_list.emplace_back(match_result.token_match, match_result.logical_type);//std::make_pair()
 	       start += match_result.match_size;
-	       goto done;
+	       goto done_loop;
 	    }
 	} 
 	throw std::exception{};
-        done:
+        done_loop:
 	((void)0);
    }
+
+    //}
+    //finish:
    return match_list;
 }
 
