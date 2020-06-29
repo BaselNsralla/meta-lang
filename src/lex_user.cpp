@@ -73,7 +73,7 @@ void lex::user::generate_patterns(char const* path, std::vector<lex::Pattern>& p
 	}
 
 	iss >> group;
-	std::cout << "-> " << name << ' ' << regex << ' ' << group << '\n';
+	std::cout << "-> " << name << ' ' << regex << ' ' << logical_type << '\n';
 	  
 	patterns.emplace_back(regex, logical_type, group);	
     }

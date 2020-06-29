@@ -46,6 +46,7 @@ static inline std::vector<std::pair<std::string, std::string>> find_token_str(st
         {
 	    auto result = tp.search(part);
 	    if(result) {
+	       
 	       auto match_result = result.value();
 	       match_list.emplace_back(match_result.token_match, match_result.logical_type);//std::make_pair()
 	       start += match_result.match_size;

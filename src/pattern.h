@@ -46,7 +46,7 @@ namespace lex {
 	std::string logical_type;
 	std::string rex_str;
 
-
+	
 
     };
 }
@@ -57,7 +57,7 @@ lex::Pattern::Pattern(T&& str, C&& type, int grp) {
     //rex   = std::regex(temp, std::regex_constants::ECMAScript | std::regex_constants::icase);
     std::string regex_str{std::forward<T>(str)};
     rex_str               = "^"+regex_str;
-    rex                   = sregex::compile(regex_str);//std::forward<T>(str));
+    rex                   = sregex::compile(rex_str);//std::forward<T>(str));
                                                        //std::forward moves if the generated function is of r-val
     logical_type = std::forward<C>(type);
     group = grp; //+ 1;
