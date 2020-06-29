@@ -3,7 +3,8 @@
 #include <optional>
 #include <string>
 #include "m_types.h"
-
+#include <iostream>
+#include <regex>
 using namespace boost::xpressive;
 
 // default parametrar gör man .h filen
@@ -36,12 +37,14 @@ namespace lex {
 	TokenPattern(T&&, T&&, int);
 	
 	std::optional<typename lex::TokenPattern::MatchResult> match(std::string& value);
-    
+	std::optional<typename TokenPattern::MatchResult>      search(std::string& value);
+	    
 	//private:
         sregex rex;
+	//std::regex rex;
 	int group;
 	std::string logical_type;
-
+	std::string rex_str;
 
 
 
@@ -50,7 +53,10 @@ namespace lex {
 
 template<StringType T> 
 lex::TokenPattern::TokenPattern(T&& str, T&& type, int grp) {
-    std::string temp = "^(" + str + ").*";
-    rex   = sregex::compile(std::move(temp)); //std::forward moves if the generated function is of r-val
-    group = grp + 1;
+    //std::cout << temp << " är du verkligen som du är " << std::endl;
+    //rex   = std::regex(temp, std::regex_constants::ECMAScript | std::regex_constants::icase);
+    std::string regex_str = "^"+str;
+    rex_str = regex_str;
+    rex   = sregex::compile(regex_str);//std::forward<T>(str)); //std::forward moves if the generated function is of r-val
+    group = grp; //+ 1;
 }
