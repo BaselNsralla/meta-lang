@@ -1,12 +1,7 @@
 #KEYWORD
-while       -> while 
-if          -> if
-let         -> let
-declaration -> decl
-define      -> def
 
 #IDENTIFIER
-name -> [a-zA-Z][\w\d]*
+name -> [_a-zA-Z][\w\d]*
 
 #LITERAL
 string_literal -> "([\w\d]*)" 1

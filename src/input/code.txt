@@ -1,4 +1,4 @@
- if=a*3+1
+ifa=a*3+1
 a21z
 sand box
 whiled*b

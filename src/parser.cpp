@@ -9,7 +9,7 @@
 #include "token.h"
 #include <array>
 #include <fstream>
-#include "token_pattern.h"
+#include "pattern.h"
 #include <iterator>
 #include <sstream>
 #include <map>
@@ -51,6 +51,19 @@ void parse(std::string&& a) {
 }
 
 
+void tokenize_code(char const* file_name,
+		              std::vector<lex::Pattern>& patterns)
+{ // det bästa är att göra det multitrådat här
+    std::ifstream fs(file_name);
+    std::string line{};
+    std::vector<lex::Token> tokens{};
+    
+    for(;std::getline(fs, line);)
+    {
+	std::cout << "THE LINE IS " << line << std::endl;
+	lex::tokenize(line+='\n', patterns, tokens);
+    }
+}
 
 
 
@@ -63,17 +76,19 @@ int main(int argc, char** argv ) {
     }
     
     /*
-      std::vector<lexer::TokenPattern>&& vec = std::move(user::read_patterns(argv[1]));
+      std::vector<lexer::Pattern>&& vec = std::move(user::read_patterns(argv[1]));
       read_patterns retunerade by value
     */
-    std::vector<lex::TokenPattern> token_patterns{};
-    lex::user::generate_patterns(argv[1], token_patterns); // <-- nu här
+    std::vector<lex::Pattern> patterns{};
+    lex::user::generate_patterns(argv[1], patterns); // <-- nu här
 
     std::vector<lex::Token> tokens{};
 
     if(argc > 2)
     {
-	lex::user::tokenize_code(argv[2], token_patterns);
+	tokenize_code(argv[2], patterns);
+    } else {
+	std::cout << "No code file was provided to tokenize" << std::endl;
     }
 
     //    lex::tokenize("if a;", token_patterns, tokens);
@@ -82,16 +97,16 @@ int main(int argc, char** argv ) {
 
     
 
-    
+    /*    
     std::string s="^what";
     std::string target = "what=";
-    auto a = lex::TokenPattern(s, s, -1);
+    auto a = lex::Pattern(s, s, -1);
     auto b = a.search(target); 
     if(b){
 	std::cout << "MATcHED " << b.value().token_match  << "SD" << std::endl;
     } else {
 	std::cout << "No match" << std::endl;
-    }
+    }*/
     
     
     
