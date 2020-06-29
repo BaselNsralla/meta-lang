@@ -20,8 +20,8 @@ namespace lex {
 	literal
     };
     */
-    class TokenPattern;
-    class TokenPattern {
+    class Pattern;
+    class Pattern {
     public:
 	struct MatchResult {
         MatchResult(size_t a, std::string&& b , std::string c):
@@ -33,11 +33,11 @@ namespace lex {
 
 
     public:
-	template<StringType T> 
-	TokenPattern(T&&, T&&, int);
+	template<StringType T, StringType C> 
+	Pattern(T&&, C&&, int);
 	
-	std::optional<typename lex::TokenPattern::MatchResult> match(std::string& value);
-	std::optional<typename TokenPattern::MatchResult>      search(std::string& value);
+	std::optional<typename lex::Pattern::MatchResult> match(std::string& value);
+	std::optional<typename Pattern::MatchResult>      search(std::string& value);
 	    
 	//private:
         sregex rex;
@@ -51,12 +51,14 @@ namespace lex {
     };
 }
 
-template<StringType T> 
-lex::TokenPattern::TokenPattern(T&& str, T&& type, int grp) {
+template<StringType T, StringType C> 
+lex::Pattern::Pattern(T&& str, C&& type, int grp) {
     //std::cout << temp << " är du verkligen som du är " << std::endl;
     //rex   = std::regex(temp, std::regex_constants::ECMAScript | std::regex_constants::icase);
-    std::string regex_str = "^"+str;
-    rex_str = regex_str;
-    rex   = sregex::compile(regex_str);//std::forward<T>(str)); //std::forward moves if the generated function is of r-val
+    std::string regex_str{std::forward<T>(str)};
+    rex_str               = "^"+regex_str;
+    rex                   = sregex::compile(regex_str);//std::forward<T>(str));
+                                                       //std::forward moves if the generated function is of r-val
+    logical_type = std::forward<C>(type);
     group = grp; //+ 1;
 }

@@ -1,4 +1,4 @@
-#include "token_pattern.h"
+#include "pattern.h"
 #include <optional>
 #include <string>
 #include <regex>
@@ -6,7 +6,7 @@
 using namespace boost::xpressive;
 using namespace lex;
 
-std::optional<typename TokenPattern::MatchResult> TokenPattern::match(std::string& value)
+std::optional<typename Pattern::MatchResult> Pattern::match(std::string& value)
 {
     smatch what;
     
@@ -17,7 +17,7 @@ std::optional<typename TokenPattern::MatchResult> TokenPattern::match(std::strin
 }
 
 
-std::optional<typename TokenPattern::MatchResult> TokenPattern::search(std::string& value)
+std::optional<typename Pattern::MatchResult> Pattern::search(std::string& value)
 {
     smatch what;
     //std::cout << "====SEARCH=====" << std::endl;

@@ -7,7 +7,7 @@
 #include <numeric>
 #include "token.h"
 #include <fstream>
-#include "token_pattern.h"
+#include "pattern.h"
 #include <iterator>
 #include <sstream>
 #include <map>
@@ -35,7 +35,7 @@ static inline std::vector<std::pair<std::string, std::string>> find_token_str(st
 	}
     }
     //{      
-    //TokenPattern::MatchResult
+    //Pattern::MatchResult
     std::cout << "WILL start with consuming" << std::endl;
     auto start = value.begin();
     auto end   = value.end();
@@ -64,7 +64,7 @@ static inline std::vector<std::pair<std::string, std::string>> find_token_str(st
 
 
 void lex::tokenize(std::string const& input_str,
-		  std::vector<lex::TokenPattern>& tps,
+		  std::vector<lex::Pattern>& tps,
 		  std::vector<Token>& tokens) { // T matchable?
 	
 	// kan man estimera en size på token vector baserat på strängsize?
