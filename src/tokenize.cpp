@@ -36,7 +36,7 @@ static inline std::vector<std::pair<std::string, std::string>> find_token_str(st
     }
     //{      
     //TokenPattern::MatchResult
-    std::cout << "WILL start with consumin" << std::endl;
+    std::cout << "WILL start with consuming" << std::endl;
     auto start = value.begin();
     auto end   = value.end();
   
